@@ -47,4 +47,8 @@ public class Clazz implements Serializable {
     public void setRoom(String room) {
         this.room = room;
     }
+    @Override
+    public String toString(){
+        return  "Lớp "+ this.name;
+    }
 }

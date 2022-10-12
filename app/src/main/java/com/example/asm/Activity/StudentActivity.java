@@ -5,16 +5,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.asm.R;
 import com.example.asm.adapter.StudentAdapter;
+import com.example.asm.dao.ClazzDAO;
 import com.example.asm.dao.StudentDAO;
+import com.example.asm.models.Clazz;
 import com.example.asm.models.Student;
 
 import java.util.ArrayList;
@@ -25,6 +32,8 @@ public class StudentActivity extends AppCompatActivity {
     private ArrayList list;
     private StudentDAO dao;
     private StudentAdapter adapter;
+    private  ArrayList<Clazz> classes = new ArrayList<>();
+    private ClazzDAO clazzDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,8 @@ public class StudentActivity extends AppCompatActivity {
         lvStudents = findViewById(R.id.lvStudents);
         //fill data
         dao = new StudentDAO(StudentActivity.this);
+        clazzDAO = new ClazzDAO(StudentActivity.this);
+        classes = clazzDAO.getAll();
 
     }
 
@@ -112,20 +123,39 @@ public class StudentActivity extends AppCompatActivity {
 
     }
     public  void onAddClick(View _view){
+        final Integer[] clazzID = {1};
         LayoutInflater layoutInflater = getLayoutInflater();
         View view = layoutInflater.inflate(R.layout.layout_new_student,null);
         EditText editUsename =view.findViewById(R.id.editUsename);
         EditText editPassword = view.findViewById(R.id.editPassword);
         EditText edtName =view.findViewById(R.id.edtName);
-        EditText edtClazz = view.findViewById(R.id.edtClazz);
+        Spinner edtClazz = view.findViewById(R.id.edtClazz);
         Button btnSave=view.findViewById(R.id.btnSave);
         Button btnHuy= view.findViewById(R.id.btnHuy);
+//hiện spinner (danh sách lớp để chọn)
+        ArrayAdapter<Clazz> clazzArrayAdapter = new ArrayAdapter<>(StudentActivity.this,
+                android.R.layout.simple_spinner_dropdown_item, classes.toArray(new Clazz[0]));
+            clazzArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            edtClazz.setAdapter(clazzArrayAdapter);
+            edtClazz.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                    Adapter adapter = adapterView.getAdapter();
+                    Clazz clazz = (Clazz) adapter.getItem(position);
+                    clazzID[0] = clazz.getId();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
 
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 edtName.setText(null);
-                edtClazz.setText(null);
+//                edtClazz.setText(null);
                 editPassword.setText(null);
                 editUsename.setText(null);
                 dialog.dismiss();
@@ -136,9 +166,9 @@ public class StudentActivity extends AppCompatActivity {
             public void onClick(View view) {
             String usename = editUsename.getText().toString();
             String pass = editPassword.getText().toString();
-            String clazz=edtClazz.getText().toString();
+//            String clazz=edtClazz.getText().toString();
             String name = edtName.getText().toString();
-            Student student = new Student(1 ,Integer.parseInt(clazz),usename,pass,name);
+            Student student = new Student(1 ,clazzID[0],usename,pass,name);
                 Boolean result =dao.insert(student);
                 if (result == true) {
                     Toast.makeText(StudentActivity.this, "Đã thêm mới", Toast.LENGTH_LONG).show();
