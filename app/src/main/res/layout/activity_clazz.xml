@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.StudentActivity">
+    tools:context=".Activity.StudentActivity"
+    android:background="@color/orange">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="408dp"
         android:layout_height="66dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="0dp"
         android:text="Lớp Học"
         android:textAlignment="center"
+        android:background="@color/white"
         android:textColor="#FF5722"
         android:textSize="34sp"
 
@@ -25,6 +27,7 @@
         android:layout_width="288dp"
         android:layout_height="53dp"
         android:text="Danh sách lớp"
+        android:background="@color/white"
         android:textAlignment="center"
         android:textColor="#616161"
         android:textSize="24sp"
@@ -40,7 +43,7 @@
         android:id="@+id/lvClazz"
         android:layout_width="397dp"
         android:layout_height="563dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="0dp"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,22 +53,27 @@
         android:id="@+id/btnThemmoi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="276dp"
         android:layout_marginBottom="4dp"
+        android:drawableLeft="@drawable/ic_baseline_exit_to_app_24"
         android:onClick="onBack"
-        android:text="Thoát"
+
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.124"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
         android:layout_marginBottom="4dp"
+        android:drawableLeft="@drawable/ic_baseline_add_24"
         android:onClick="onAddClick"
-        android:text="Thêm Mới"
+
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.901"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
